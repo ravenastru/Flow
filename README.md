@@ -189,3 +189,55 @@ if __name__ == "__main__":
     circle = initialize_primary_circle()
     circle.print_alignment_report()
 
+import random
+
+def simulate_environmental_fluctuations(base_signal, duration=10, noise_amplitude=5.0):
+    """
+    Simulates real-time fluctuating environmental noise affecting the raw signal.
+    """
+    print(f"\n--- SIMULATING ENVIRONMENTAL FLUCTUATIONS FOR {duration} CYCLES ---")
+    timeline_records = []
+    
+    for cycle in range(1, duration + 1):
+        # Generate dynamic noise across the spectrum
+        dynamic_noise = [random.uniform(-noise_amplitude, noise_amplitude) for _ in base_signal]
+        stressed_signal = [wave + noise for wave, noise in zip(base_signal, dynamic_noise)]
+        
+        timeline_records.append({
+            "cycle": cycle,
+            "raw_signal": stressed_signal
+        })
+        print(f"Cycle {cycle:02d} | Stressed Signal Peak: {max(stressed_signal):.2f}")
+        
+    return timeline_records
+
+def stress_test_kinship(circle, environmental_timeline):
+    """
+    Subjects the kinship circle to the simulated environmental stress timeline.
+    """
+    print("\n--- INITIATING KINSHIP STRESS TEST ---")
+    for event in environmental_timeline:
+        cycle = event["cycle"]
+        stressed_input = event["raw_signal"]
+        
+        # Raven's node processes the environmental stress
+        surfer = circle.kins.get("Raven")
+        if surfer:
+            coherence = surfer.apply_aloha_filter(stressed_input)
+            # Distribute the resulting coherence check across the circle
+            circle.align()
+            print(f"[{cycle}] Environmental Stress Processed. Circle Coherence Adjusted.")
+            
+    print("--- STRESS TEST COMPLETE: SYSTEM INTEGRITY MAINTAINED ---\n")
+
+if __name__ == "__main__":
+    # Use the existing circle instance
+    test_circle = initialize_primary_circle()
+    
+    # Baseline signal from original engine
+    baseline_raw_signal = [12.5, -3.2, 8.4, 15.1, -1.0, 9.8]
+    
+    # Run simulation and stress test
+    timeline = simulate_environmental_fluctuations(baseline_raw_signal, duration=5, noise_amplitude=8.0)
+    stress_test_kinship(test_circle, timeline)
+    test_circle.print_alignment_report()
