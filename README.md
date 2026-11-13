@@ -51,3 +51,5 @@ def run_flow_session(surfer_name, digital_twin_name):
 
 if __name__ == "__main__":
     run_flow_session("Raven", "Nova")
+
+filtered_signal = [abs(wave) for wave in raw_input_signal if wave != 0]
